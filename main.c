@@ -6,56 +6,89 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:01:34 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 14:43:55 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/03 19:55:18 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include "libft.h"
 
-int		fill_sides(t_border s, char *argv[])
+int		validate_inputs(int *inputs, int size)
 {
 	int index;
 
 	index = 0;
-	while (index < 4)
+	while (index < size)
 	{
-		s.up[index] = ft_atoi(argv[index + 1]);
-		s.down[index] = ft_atoi(argv[index + 5]);
-		s.left[index] = ft_atoi(argv[index + 9]);
-		s.right[index] = ft_atoi(argv[index + 13]);
+		if (inputs[index] < 1 || inputs[index + size] < 1 ||
+		inputs[index + (2 * size)] < 1 || inputs[index + (3 * size)] < 1)
+			return (0);
+		else if ((inputs[index] + inputs[index + size]) > size + 1 ||
+				(inputs[index + (2 * size)] + inputs[index + (3 * size)]) > size + 1)
+			return (0);
 		index++;
 	}
-	while (--index > -1)
-	{
-		if (s.up[index] < 0 || s.down < 0 || s.left < 0 || s.right < 0)
-			return (0);
-		else if (s.up[index] + s.down[index] > 5 ||
-				s.left[index] + s.right[index] > 5)
-			return (0);
-	}
 	return (1);
+}
+
+int		**init_board(t_board board, int size)
+{
+	int i;
+	int j;
+
+	i = 0;
+	board.board = (int **)malloc(sizeof(int *) * size);
+	while (i < size)
+	{
+		board.board[i] = (int *)malloc(sizeof(int) * size);
+		i++;
+	}
+	while (--i > -1)
+	{
+		j = 0;
+		while (j < size)
+			board.board[i][j++] = 0;
+	}
+	return (board.board);
 }
 
 int		main(int argc, char *argv[])
 {
 	int			i;
-	t_border	sides;
+	t_board		board;
+	int			size;
 
-	sides.up = malloc(sizeof(int) * 4);
-	sides.down = malloc(sizeof(int) * 4);
-	sides.left = malloc(sizeof(int) * 4);
-	sides.right = malloc(sizeof(int) * 4);
+	size = 4;
 	i = 0;
-	if (argc < 17)
+	if (argc < 2)
 		ft_putstr(ERR_TOO_LITTLE);
-	else if (argc > 17)
+	else if (argc > 3)
 		ft_putstr(ERR_TOO_MUCH);
 	else
 	{
-		if (fill_sides(sides, argv))
-			solve(sides);
+		if (argv[2])
+		{
+			size = ft_atoi(argv[2]);
+			if (size < 4 || size > 9)
+			{
+				ft_putstr(ERR_INVALID_SIZE);
+				size = 4;
+			}
+		}
+		board.border = get_input(argv, size);
+		if (!board.border)
+		{
+			ft_putstr(ERR_INVALID_INPUT);
+			return (0);
+		}
+		if (validate_inputs(board.border, size))
+		{
+			board.board = init_board(board, size);
+			if (solve(board, 0, 0, size))
+				print_board(board, size);
+		}
 		else
 			ft_putstr(ERR_INVALID);
 	}
