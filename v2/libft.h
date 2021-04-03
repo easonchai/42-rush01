@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:06:09 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 14:44:21 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/03 14:01:22 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ typedef	struct	s_constraints
 	int	*right;
 }				t_border;
 int				eyesight(int *row, int count);
-void			print_board(int **board, int width);
-int				solve(t_border s);
+
 #endif
