@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:01:34 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 19:55:18 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/03 20:54:09 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int		main(int argc, char *argv[])
 				size = 4;
 			}
 		}
+		board.size = size;
 		board.border = get_input(argv, size);
 		if (!board.border)
 		{
@@ -88,6 +89,8 @@ int		main(int argc, char *argv[])
 			board.board = init_board(board, size);
 			if (solve(board, 0, 0, size))
 				print_board(board, size);
+			else
+				ft_putstr(ERR_INVALID);
 		}
 		else
 			ft_putstr(ERR_INVALID);
