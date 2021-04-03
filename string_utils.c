@@ -105,7 +105,7 @@ int		*get_input(char *argv[], int size)
     count = 0;
     while (inputs[count])
         count++;
-    if (count != size * size)
+    if (count != size * 4)
         return (NULL);
     output = malloc(sizeof(int) * count);
 	while (inputs[index])
