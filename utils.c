@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:03:59 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 13:26:16 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/03 13:46:43 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_putstr(char *str)
 {
 	int index;
-	
+
 	index = 0;
 	while (str[index])
 		write(1, &str[index++], 1);
