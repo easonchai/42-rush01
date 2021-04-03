@@ -34,7 +34,7 @@ int left_row_eyesight(t_board board, int row, int col, int digit)
 	}
 	if (digit > max)
 		can_see++;
-	if (col < board.size - 1 && can_see <= board.border[row + (board.size * 2)])
+	if ((col < board.size - 1) && (can_see <= board.border[row + (board.size * 2)]))
 		return (1);
 	else if ((col == (board.size - 1)) && (can_see == board.border[row + (board.size * 2)]))
 		return (1);
@@ -95,7 +95,7 @@ int full_right_check(t_board board, int row, int col, int digit)
 		index--;
 	}
 	// printf("Digit: %d\n", digit);
-	printf("Row: %d, Target: %d, Actual: %d\n", row, board.border[row + (board.size * 3)], can_see);
+	// printf("Row: %d, Target: %d, Actual: %d\n", row, board.border[row + (board.size * 3)], can_see);
 	if (can_see == board.border[row + (board.size * 3)])
 		return (1);
 	return (0);
@@ -124,7 +124,7 @@ int full_bot_check(t_board board, int row, int col, int digit)
 		}
 		index--;
 	}
-	printf("Col: %d, Target: %d, Actual: %d, Board size: %d\n", col, board.border[col + board.size], can_see, board.size);
+	// printf("Col: %d, Target: %d, Actual: %d, Board size: %d\n", col, board.border[col + board.size], can_see, board.size);
 	if (can_see == board.border[col + board.size])
 		return (1);
 	return (0);
@@ -145,7 +145,6 @@ int is_possible(t_board board, int row, int col, int digit)
 	while (col >= 0)
 		if (board.board[initial_row][col--] == digit)
 			return (0);
-	// printf("Row: %d, Size: %d\n", initial_row, board.size - 1);
 	if (initial_col == board.size - 1 && !full_right_check(board, initial_row, initial_col, digit))
 		return (0);
 	if (initial_row == board.size - 1 && !full_bot_check(board, initial_row, initial_col, digit))
