@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 11:41:39 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 16:43:49 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 16:51:41 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,79 +93,4 @@ void	prefill(t_board board, int size)
 		}
 		index++;
 	}
-}
-
-int		check_rows(t_board board, int size)
-{
-	int i;
-	int j;
-	int k;
-
-	i = 0;
-	// while (i < size)
-	// {
-	// 	j = 0;
-	// 	while (j < size)
-	// 	{
-	// 		k = j + 1;
-	// 		while (k < size)
-	// 		{
-	// 			if (board.board[i][j] != 0 && board.board[i][j] == board.board[i][k++])
-	// 				return (0);
-	// 			else
-	// 				k++;
-	// 		}
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	while (i < size)
-	{
-		j = 0;
-		while (j < size)
-		{
-			if (board.board[j][i] != 0)
-			{
-				k = j + 1;
-				while (k < size)
-				{
-					if (board.board[j][i] == board.board[k][i])
-						return (0);
-					k++;
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int		check_cols(t_board board, int size)
-{
-	int i;
-	int j;
-	int k;
-
-	i = 0;
-	while (i < size)
-	{
-		j = 0;
-		while (j < size)
-		{
-			if (board.board[i][j] != 0)
-			{
-				k = j + 1;
-				while (k < size)
-				{
-					if (board.board[i][j] == board.board[i][k])
-						return (0);
-					k++;
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-	return (1);
 }
