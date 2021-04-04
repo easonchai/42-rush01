@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:03:59 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 17:53:19 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 14:57:58 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,64 +54,72 @@ int		count_spaces(char *str)
 			is_letter = 0;
 		i++;
 	}
-    return (count);
+	return (count);
+}
+
+char	**fill_lines(char **tab, char *str)
+{
+	int v_pos;
+	int j;
+
+	v_pos = 0;
+	while (*str)
+	{
+		if (*str > 32)
+		{
+			j = 0;
+			tab[v_pos] = malloc(sizeof(char) * 11);
+			while (*str > 32)
+			{
+				tab[v_pos][j] = *str;
+				str++;
+				j++;
+			}
+			tab[v_pos++][j] = '\0';
+		}
+		else
+			str++;
+	}
+	tab[v_pos] = 0;
+	return (tab);
 }
 
 char	**ft_split(char *str)
 {
-	char **tab;
-	int len;
-	int i;
-	int i2;
-	int i3;
+	char	**tab;
+	int		len;
+	int		i;
+	int		v_pos;
 
 	i = 0;
-	i2 = 0;
+	v_pos = 0;
 	len = count_spaces(str);
 	tab = malloc(sizeof(char *) * len + 1);
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-		i++;
-	while (str[i])
-	{
-		if (str[i] > 32)
-		{
-			i3 = 0;
-			tab[i2] = malloc(sizeof(char) * 11);
-			while (str[i] > 32)
-			{
-				tab[i2][i3] = str[i];
-				i++;
-				i3++;
-			}
-			tab[i2][i3] = '\0';
-			i2++;
-		}
-		else
-			i++;
-	}
-	tab[i2] = 0;
+	while (*str == ' ' || *str == '\t' || *str == '\n')
+		str++;
+	tab = fill_lines(tab, str);
 	return (tab);
 }
 
 int		*get_input(char *argv[], int size)
 {
-	char **inputs;
-	int *output;
-    int count;
-    int index;
+	char	**inputs;
+	int		*output;
+	int		count;
+	int		index;
 
-    index = 0;
+	index = 0;
 	inputs = ft_split(argv[1]);
-    count = 0;
-    while (inputs[count])
-        count++;
-    if (count != size * 4)
-        return (NULL);
-    output = malloc(sizeof(int) * count);
+	count = 0;
+	while (inputs[count])
+		count++;
+	if (count != size * 4)
+		return (NULL);
+	output = malloc(sizeof(int) * count);
 	while (inputs[index])
-    {
-        output[index] = ft_atoi(inputs[index]);
-        index++;
-    }
+	{
+		output[index] = ft_atoi(inputs[index]);
+		index++;
+	}
 	return (output);
 }

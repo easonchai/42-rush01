@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:01:34 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 10:49:06 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 14:57:24 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 #include <stdlib.h>
 #include "libft.h"
 
-int		validate_inputs(int *inputs, int size)
+int		validate_inputs(int *inputs, int s)
 {
-	int index;
+	int i;
 
-	index = 0;
-	while (index < size)
+	i = 0;
+	while (i < s)
 	{
-		if (inputs[index] < 1 || inputs[index + size] < 1 ||
-		inputs[index + (2 * size)] < 1 || inputs[index + (3 * size)] < 1)
+		if (inputs[i] < 1 || inputs[i + s] < 1 ||
+		inputs[i + (2 * s)] < 1 || inputs[i + (3 * s)] < 1)
 			return (0);
-		else if ((inputs[index] + inputs[index + size]) > size + 1 ||
-				(inputs[index + (2 * size)] + inputs[index + (3 * size)]) > size + 1)
+		else if ((inputs[i] + inputs[i + s]) > s + 1 ||
+				(inputs[i + (2 * s)] + inputs[i + (3 * s)]) > s + 1)
 			return (0);
-		index++;
+		i++;
 	}
 	return (1);
 }
@@ -54,14 +54,45 @@ int		**init_board(t_board board, int size)
 	return (board.board);
 }
 
+void	begin(t_board board, int size, char *argv[])
+{
+	board.border = get_input(argv, board.size);
+	if (!board.border)
+	{
+		ft_putstr(ERR_INVALID_INPUT);
+		return ;
+	}
+	if (validate_inputs(board.border, board.size))
+	{
+		board.board = init_board(board, size);
+		// prefill(board, size);
+		if (solve(board, 0, 0, size))
+			print_board(board, size);
+		else
+			ft_putstr(ERR_INVALID);
+	}
+	else
+		ft_putstr(ERR_INVALID);
+}
+
+int		get_size(char *str)
+{
+	int size;
+
+	size = ft_atoi(str);
+	if (size < 4 || size > 9)
+	{
+		ft_putstr(ERR_INVALID_SIZE);
+		return (0);
+	}
+	return (size);
+}
+
 int		main(int argc, char *argv[])
 {
-	int			i;
 	t_board		board;
-	int			size;
 
-	size = 4;
-	i = 0;
+	board.size = 4;
 	if (argc < 2)
 		ft_putstr(ERR_TOO_LITTLE);
 	else if (argc > 3)
@@ -70,31 +101,11 @@ int		main(int argc, char *argv[])
 	{
 		if (argv[2])
 		{
-			size = ft_atoi(argv[2]);
-			if (size < 4 || size > 9)
-			{
-				ft_putstr(ERR_INVALID_SIZE);
-				size = 4;
-			}
+			board.size = get_size(argv[2]);
+			if (board.size < 4)
+				return (0);
 		}
-		board.size = size;
-		board.border = get_input(argv, size);
-		if (!board.border)
-		{
-			ft_putstr(ERR_INVALID_INPUT);
-			return (0);
-		}
-		if (validate_inputs(board.border, size))
-		{
-			board.board = init_board(board, size);
-			// prefill(board, size);
-			if (solve(board, 0, 0, size))
-				print_board(board, size);
-			else
-				ft_putstr(ERR_INVALID);
-		}
-		else
-			ft_putstr(ERR_INVALID);
+		begin(board, board.size, argv);
 	}
 	return (0);
 }
