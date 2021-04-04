@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:01:34 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 16:50:51 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 17:07:52 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ void	begin(t_board board, int size, char *argv[])
 	if (validate_inputs(board.border, board.size))
 	{
 		board.board = init_board(board, size);
-		// prefill(board, size);
-		// if (!check_rows(board, size) || !check_cols(board, size))
-		// {
-		// 	ft_putstr(ERR_INVALID);
-		// 	return ;
-		// }
 		if (solve(board, 0, 0, size))
 			print_board(board, size);
 		else
