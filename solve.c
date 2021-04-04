@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 13:52:02 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 21:31:50 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 10:21:41 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-int left_row_eyesight(t_board board, int row, int col, int digit)
+int 	left_row_eyesight(t_board board, int row, int col, int digit)
 {
 	int can_see;
 	int index;
@@ -41,7 +41,7 @@ int left_row_eyesight(t_board board, int row, int col, int digit)
 	return (0);
 }
 
-int top_col_eyesight(t_board board, int row, int col, int digit)
+int 	top_col_eyesight(t_board board, int row, int col, int digit)
 {
 	int can_see;
 	int index;
@@ -71,7 +71,7 @@ int top_col_eyesight(t_board board, int row, int col, int digit)
 	return (0);
 }
 
-int full_right_check(t_board board, int row, int col, int digit)
+int 	full_right_check(t_board board, int row, int col, int digit)
 {
 	int can_see;
 	int index;
@@ -101,7 +101,7 @@ int full_right_check(t_board board, int row, int col, int digit)
 	return (0);
 }
 
-int full_bot_check(t_board board, int row, int col, int digit)
+int 	full_bot_check(t_board board, int row, int col, int digit)
 {
 	int can_see;
 	int index;
@@ -130,7 +130,7 @@ int full_bot_check(t_board board, int row, int col, int digit)
 	return (0);
 }
 
-int is_possible(t_board board, int row, int col, int digit)
+int 	is_possible(t_board board, int row, int col, int digit)
 {
 	int initial_row;
 	int initial_col;
@@ -139,24 +139,71 @@ int is_possible(t_board board, int row, int col, int digit)
 	index = 0;
 	initial_row = row;
 	initial_col = col;
-	while (row >= 0)
-		if (board.board[row--][initial_col] == digit)
+	while (index < board.size)
+		if (board.board[index++][initial_col] == digit)
 			return (0);
-	while (col >= 0)
-		if (board.board[initial_row][col--] == digit)
+	while (index >= 0)
+		if (board.board[initial_row][index--] == digit)
 			return (0);
-	if (initial_col == board.size - 1 && !full_right_check(board, initial_row, initial_col, digit))
-		return (0);
-	if (initial_row == board.size - 1 && !full_bot_check(board, initial_row, initial_col, digit))
-		return (0);
 	if (!left_row_eyesight(board, initial_row, initial_col, digit))
 		return (0);
 	if (!top_col_eyesight(board, initial_row, initial_col, digit))
 		return (0);
+	if (initial_col == board.size - 1 && !full_right_check(board, initial_row, initial_col, digit))
+		return (0);
+	if (initial_row == board.size - 1 && !full_bot_check(board, initial_row, initial_col, digit))
+		return (0);
 	return (1);
 }
 
-int solve(t_board obj, int row, int col, int size)
+void	prefill(t_board board, int size)
+{
+	int index;
+	int side;
+
+	side = 0;
+	index = 0;
+	while (index < size * 4)
+	{
+		side = index / size;
+		if (board.border[index] == 1)
+		{
+			if (side == 0)
+				board.board[0][index % size] = size;
+			else if (side == 1)
+				board.board[size - 1][index % size] = size;
+			else if (side == 2)
+				board.board[index % size][0] = size;
+			else if (side == 3)
+				board.board[index % size][size - 1] = size;
+		}
+		else if (board.border[index] == size)
+		{
+			if (side == 0)
+			{
+
+			}
+			else if (side == 1)
+				board.board[size - 1][index % size] = 9;
+			else if (side == 2)
+				board.board[index % size][0] = 9;
+			else if (side == 3)
+				board.board[index % size][size - 1] = 9;
+		}
+	}
+}
+
+void	fill_row(t_board obj, int row, int size)
+{
+
+}
+
+void	fill_col(t_board obj, int col, int size)
+{
+	
+}
+
+int		solve(t_board obj, int row, int col, int size)
 {
 	int num;
 
@@ -170,7 +217,7 @@ int solve(t_board obj, int row, int col, int size)
 	num = 1;
 	while (num < size + 1)
 	{
-		if (is_possible(obj, row, col, num))
+		if (obj.board[row][col] == 0 && is_possible(obj, row, col, num))
 		{
 			obj.board[row][col] = num;
 			if (solve(obj, row, col + 1, size))
