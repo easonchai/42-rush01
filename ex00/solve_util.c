@@ -6,11 +6,12 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 15:00:36 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 11:37:49 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 15:35:11 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 int		left_row_eyesight(t_board b, int row, int col, int digit)
 {
@@ -32,6 +33,8 @@ int		left_row_eyesight(t_board b, int row, int col, int digit)
 	}
 	if (digit > max)
 		see++;
+	if (digit == b.size && see < b.border[row + (b.size * 2)])
+		return (0);
 	if ((col < b.size - 1) && (see <= b.border[row + (b.size * 2)]))
 		return (1);
 	else if ((col == (b.size - 1)) && (see == b.border[row + (b.size * 2)]))
@@ -59,6 +62,8 @@ int		top_col_eyesight(t_board b, int row, int col, int digit)
 	}
 	if (digit > max)
 		see++;
+	if (digit == b.size && see < b.border[col])
+		return (0);
 	if ((row < b.size - 1) && (see <= b.border[col]))
 		return (1);
 	else if ((row == (b.size - 1)) && (see == b.border[col]))

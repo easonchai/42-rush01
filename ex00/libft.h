@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:06:09 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 14:57:20 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 16:36:32 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,6 @@ int				left_row_eyesight(t_board board, int row, int col, int digit);
 int				top_col_eyesight(t_board board, int row, int col, int digit);
 int				full_right_check(t_board board, int row, int col, int digit);
 int				full_bot_check(t_board board, int row, int col, int digit);
+int				check_rows(t_board board, int size);
+int				check_cols(t_board board, int size);
 #endif

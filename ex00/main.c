@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:01:34 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 14:57:24 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 16:47:46 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int		validate_inputs(int *inputs, int s)
 {
 	int i;
+	// int j;
 
 	i = 0;
 	while (i < s)
@@ -29,6 +30,16 @@ int		validate_inputs(int *inputs, int s)
 				(inputs[i + (2 * s)] + inputs[i + (3 * s)]) > s + 1)
 			return (0);
 		i++;
+		// j = i + 1;
+		// while (j < s)
+		// {
+		// 	if (((inputs[i] == s || inputs[i] == 1) && inputs[i] == inputs[j]) ||
+		// 	((inputs[i + s] == s || inputs[i + s] == 1) && inputs[i + s] == inputs[j + s]) ||
+		// 	((inputs[i + (2 * s)] == s || inputs[i + (2 * s)] == 1) && inputs[i + (2 * s)] == inputs[j + (2 * s)]) ||
+		// 	((inputs[i + (3 * s)] == s || inputs[i + (3 * s)] == 1) && inputs[i + (3 * s)] == inputs[j + (3 * s)]))
+		// 		return (0);
+		// 	j++;
+		// }
 	}
 	return (1);
 }
@@ -66,6 +77,11 @@ void	begin(t_board board, int size, char *argv[])
 	{
 		board.board = init_board(board, size);
 		// prefill(board, size);
+		// if (!check_rows(board, size) || !check_cols(board, size))
+		// {
+		// 	ft_putstr(ERR_INVALID);
+		// 	return ;
+		// }
 		if (solve(board, 0, 0, size))
 			print_board(board, size);
 		else
