@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 13:52:02 by echai             #+#    #+#             */
-/*   Updated: 2021/04/04 10:21:41 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 10:42:23 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ int 	top_col_eyesight(t_board board, int row, int col, int digit)
 	max = 0;
 	index = 0;
 	can_see = 0;
-	// printf("TEst: %d\nIndex: %d\nCol: %d\n", board.board[index][col], index, col);
 	while (index < row)
 	{
-		// printf("TEst: %d\nIndex: %d\nRow: %d \nCol: %d\n", board.board[index][col], index, row, col);
 		if (board.board[index][col] > max)
 		{
 			max = board.board[index][col];
@@ -63,7 +61,6 @@ int 	top_col_eyesight(t_board board, int row, int col, int digit)
 	}
 	if (digit > max)
 		can_see++;
-	// printf("Row: %d, Target: %d, Actual: %d\n", row, board.border[col], can_see);
 	if ((row < board.size - 1) && (can_see <= board.border[col]))
 		return (1);
 	else if ((row == (board.size - 1)) && (can_see == board.border[col]))
@@ -94,8 +91,6 @@ int 	full_right_check(t_board board, int row, int col, int digit)
 		}
 		index--;
 	}
-	// printf("Digit: %d\n", digit);
-	// printf("Row: %d, Target: %d, Actual: %d\n", row, board.border[row + (board.size * 3)], can_see);
 	if (can_see == board.border[row + (board.size * 3)])
 		return (1);
 	return (0);
@@ -124,7 +119,6 @@ int 	full_bot_check(t_board board, int row, int col, int digit)
 		}
 		index--;
 	}
-	// printf("Col: %d, Target: %d, Actual: %d, Board size: %d\n", col, board.border[col + board.size], can_see, board.size);
 	if (can_see == board.border[col + board.size])
 		return (1);
 	return (0);
@@ -156,6 +150,54 @@ int 	is_possible(t_board board, int row, int col, int digit)
 	return (1);
 }
 
+void	fill_row(t_board obj, int row, int size, int direction)
+{
+	int index;
+
+	if (!direction)
+	{
+		index = 0;
+		while (index < size + 1)
+		{
+			obj.board[row][index] = index;
+			index++;
+		}
+	}
+	else
+	{
+		index = size;
+		while (index >= 0)
+		{
+			obj.board[row][index] = index;
+			index--;
+		}
+	}
+}
+
+void	fill_col(t_board obj, int col, int size, int direction)
+{
+	int index;
+
+	if (!direction)
+	{
+		index = 0;
+		while (index < size + 1)
+		{
+			obj.board[index][col] = index;
+			index++;
+		}
+	}
+	else
+	{
+		index = size;
+		while (index >= 0)
+		{
+			obj.board[index][col] = index;
+			index--;
+		}
+	}
+}
+
 void	prefill(t_board board, int size)
 {
 	int index;
@@ -180,27 +222,16 @@ void	prefill(t_board board, int size)
 		else if (board.border[index] == size)
 		{
 			if (side == 0)
-			{
-
-			}
+				fill_col(board, index % size, size, 0);
 			else if (side == 1)
-				board.board[size - 1][index % size] = 9;
+				fill_col(board, index % size, size, 1);
 			else if (side == 2)
-				board.board[index % size][0] = 9;
+				fill_row(board, index % size, size, 0);
 			else if (side == 3)
-				board.board[index % size][size - 1] = 9;
+				fill_row(board, index % size, size, 1);
 		}
+		index++;
 	}
-}
-
-void	fill_row(t_board obj, int row, int size)
-{
-
-}
-
-void	fill_col(t_board obj, int col, int size)
-{
-	
 }
 
 int		solve(t_board obj, int row, int col, int size)
@@ -215,16 +246,22 @@ int		solve(t_board obj, int row, int col, int size)
 		row++;
 	}
 	num = 1;
-	while (num < size + 1)
-	{
-		if (obj.board[row][col] == 0 && is_possible(obj, row, col, num))
+	if (obj.board[row][col] == 0)
+		while (num < size + 1)
 		{
-			obj.board[row][col] = num;
-			if (solve(obj, row, col + 1, size))
-				return (1);
-			obj.board[row][col] = 0;
+			if (is_possible(obj, row, col, num))
+			{
+				obj.board[row][col] = num;
+				if (solve(obj, row, col + 1, size))
+					return (1);
+				obj.board[row][col] = 0;
+			}
+			num++;
 		}
-		num++;
+	else
+	{
+		if (solve(obj, row, col + 1, size))
+			return (1);
 	}
 	return (0);
 }

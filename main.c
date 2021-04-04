@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:01:34 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 20:54:09 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 10:49:06 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		main(int argc, char *argv[])
 		if (validate_inputs(board.border, size))
 		{
 			board.board = init_board(board, size);
+			// prefill(board, size);
 			if (solve(board, 0, 0, size))
 				print_board(board, size);
 			else

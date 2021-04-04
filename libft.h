@@ -6,7 +6,7 @@
 /*   By: echai <echai@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 10:06:09 by echai             #+#    #+#             */
-/*   Updated: 2021/04/03 20:22:49 by echai            ###   ########.fr       */
+/*   Updated: 2021/04/04 10:38:27 by echai            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ typedef	struct	s_board
 int				eyesight(int *row, int count);
 void			print_board(t_board board, int width);
 int				solve(t_board board, int row, int col, int size);
+void			prefill(t_board board, int size);
 int				*get_input(char *argv[], int size);
 #endif
